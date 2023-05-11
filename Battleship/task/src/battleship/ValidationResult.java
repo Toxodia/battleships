@@ -6,10 +6,10 @@ public enum ValidationResult {
     WRONG_LENGTH("") {
         @Override
         public String getMessage(String name) {
-            return "Error! Wrong length of the " + name + "! Try again:\n";
+            return "\nError! Wrong length of the " + name + "! Try again:\n";
         }
     },
-    WRONG_POSITION("Error! Wrong ship location! Try again:\n"),
+    WRONG_POSITION("\nError! Wrong ship location! Try again:\n"),
     WRONG_OVERALL(""),
     WRONG_OOB("");
     private final String message;

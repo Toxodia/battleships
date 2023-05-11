@@ -1,5 +1,7 @@
 package battleship;
 
+import java.util.Arrays;
+
 public class CoordinateBuilder {
     private static final String letterBoardString = "ABCDEFGHIJ";
     int[] coordinatesAsInts;
@@ -33,10 +35,9 @@ public class CoordinateBuilder {
             int startCol = Math.min(x1, x2);
             int endCol = Math.max(x1, x2);
             for (int col = startCol; col <= endCol; col++) {
-                //TODO build array as int[] instead of String[]
                 coordinateArray[index] = "" + letterBoardString.charAt(col) + y1;
-                intArray[index][0] = y1 - 1;
-                intArray[index][1] = col;
+                intArray[index][0] = col;
+                intArray[index][1] = y1 - 1;
                 index++;
             }
         } else {
@@ -44,9 +45,9 @@ public class CoordinateBuilder {
             int startRow = Math.min(y1, y2);
             int endRow = Math.max(y1, y2);
             for (int row = startRow; row <= endRow; row++) {
-                coordinateArray[index] = "" + (char) letterBoardString.charAt(x1) + row;
-                intArray[index][0] = row - 1;
-                intArray[index][1] = x1;
+                coordinateArray[index] = "" + letterBoardString.charAt(x1) + row;
+                intArray[index][0] = x1;
+                intArray[index][1] = row - 1;
                 index++;
             }
         }
