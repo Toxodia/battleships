@@ -131,13 +131,13 @@ public class PlayingBoard {
     public void clearUpAfterShot(ShotStatus status) {
         printFogOfWarBoard();
         if (status.equals(ShotStatus.HIT)) {
-            System.out.println("You hit a ship! Try again:\n");
+            System.out.println("You hit a ship!");
         } else if (status.equals(ShotStatus.DESTROYED)) {
             System.out.println("You sank a ship! Specify a new target:\n");
         } else if (status.equals(ShotStatus.WIN)) {
             System.out.println("You sank the last ship. You won. Congratulations!\n");
         } else if (status.equals(ShotStatus.MISS)) {
-            System.out.println("You missed. Try again:\n");
+            System.out.println("You missed!");
         }
     }
 

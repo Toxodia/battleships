@@ -6,9 +6,11 @@ public class Player {
     public Player() {
         playingBoard.printFullBoard();
         fillBoardWithShips();
-        startGame();
     }
 
+    public PlayingBoard getPlayingBoard() {
+        return playingBoard;
+    }
 
     private void fillBoardWithShips() {
         placeShip("Aircraft Carrier", 5);
@@ -28,7 +30,6 @@ public class Player {
     }
 
     private void startGame() {
-        System.out.println("The game starts!");
         playingBoard.printFogOfWarBoard();
         startShooting();
     }
