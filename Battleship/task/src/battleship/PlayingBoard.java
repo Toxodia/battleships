@@ -1,7 +1,10 @@
 package battleship;
 
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 public class PlayingBoard {
     private static final String letterBoardString = "ABCDEFGHIJ";
@@ -21,6 +24,7 @@ public class PlayingBoard {
 
     public void addToShipList(Ship ship) {
         shipList.add(ship);
+        putOnBoard(ship);
     }
 
     private int[] buildCoordinate(String coordinate) {
@@ -50,7 +54,7 @@ public class PlayingBoard {
     }
 
     public void printFullBoard() {
-        System.out.print(" ");
+        System.out.print("\n ");
         for (int i = 0; i < playingBoard.length; i++) {
             System.out.print(" " + (i + 1));
         }
@@ -62,10 +66,11 @@ public class PlayingBoard {
             }
             System.out.println();
         }
+        System.out.println();
     }
 
     public void printFogOfWarBoard() {
-        System.out.print(" ");
+        System.out.print("\n ");
         for (int i = 0; i < playingBoard.length; i++) {
             System.out.print(" " + (i + 1));
         }
@@ -81,6 +86,13 @@ public class PlayingBoard {
             }
             System.out.println();
         }
+        System.out.println();
+    }
+
+    private void putOnBoard(Ship ship) {
+        for (int[] coordinate : ship.getCoordinateArray()) {
+            playingBoard[coordinate[0]][coordinate[1]] = Symbol.SHIP_SYMBOL.getSymbol();
+        }
     }
 
     /**
@@ -92,13 +104,40 @@ public class PlayingBoard {
         playingBoard[pos[xIndex]][pos[yIndex]] = value;
     }
 
-    private void shoot(String coordinate) {
+    public boolean shoot(InputStream input) {
+        Scanner scanner = new Scanner(input);
+        String coordinate = scanner.next().toUpperCase();
+
         for (Ship ship : shipList) {
             if (ship.hitShip(coordinate)) {
                 setCoordinates(coordinate, Symbol.HIT_SYMBOL.getSymbol());
-            } else {
-                setCoordinates(coordinate, Symbol.MISS_SYMBOL.getSymbol());
+                if (ship.isDestroyed()) {
+                    if (shipList.stream().allMatch(Ship::isDestroyed)) {
+                        clearUpAfterShot(ShotStatus.WIN);
+                        return false;
+                    }
+                    clearUpAfterShot(ShotStatus.DESTROYED);
+                    return true;
+                }
+                clearUpAfterShot(ShotStatus.HIT);
+                return true;
             }
+        }
+        setCoordinates(coordinate, Symbol.MISS_SYMBOL.getSymbol());
+        clearUpAfterShot(ShotStatus.MISS);
+        return true;
+    }
+
+    public void clearUpAfterShot(ShotStatus status) {
+        printFogOfWarBoard();
+        if (status.equals(ShotStatus.HIT)) {
+            System.out.println("You hit a ship!");
+        } else if (status.equals(ShotStatus.DESTROYED)) {
+            System.out.println("You sank a ship! Specify a new target:\n");
+        } else if (status.equals(ShotStatus.WIN)) {
+            System.out.println("You sank the last ship. You won. Congratulations!\n");
+        } else if (status.equals(ShotStatus.MISS)) {
+            System.out.println("You missed!");
         }
     }
 

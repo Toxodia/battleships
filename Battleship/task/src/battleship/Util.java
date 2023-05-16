@@ -9,8 +9,8 @@ public class Util {
 
     public static int[] queryCoordinates(InputStream in) {
         Scanner scanner = new Scanner(in);
-        String[] coordinateOne = scanner.next().split("");
-        String[] coordinateTwo = scanner.next().split("");
+        String[] coordinateOne = scanner.next().split("", 2);
+        String[] coordinateTwo = scanner.next().split("", 2);
         int[] intArray = new int[4];
         intArray[0] = letterBoardString.indexOf(coordinateOne[0].toUpperCase());
         intArray[1] = Integer.parseInt(coordinateOne[1]) - 1;
@@ -19,8 +19,21 @@ public class Util {
         return intArray;
     }
 
+    public static int[] queryCoordinate(InputStream in) {
+        Scanner scanner = new Scanner(in);
+        String[] coordinateOne = scanner.next().split("", 2);
+        int[] intArray = new int[2];
+        intArray[0] = letterBoardString.indexOf(coordinateOne[0].toUpperCase());
+        intArray[1] = Integer.parseInt(coordinateOne[1]) - 1;
+        return intArray;
+    }
+
     public static int[] queryCoordinates() {
         return queryCoordinates(System.in);
+    }
+
+    public static int[] queryCoordinate() {
+        return queryCoordinate(System.in);
     }
 
 

@@ -1,14 +1,15 @@
 package battleship;
 
-import java.util.Scanner;
-
 public class Player {
     private PlayingBoard playingBoard = new PlayingBoard();
-    private Scanner scanner = new Scanner(System.in);
 
     public Player() {
         playingBoard.printFullBoard();
         fillBoardWithShips();
+    }
+
+    public PlayingBoard getPlayingBoard() {
+        return playingBoard;
     }
 
     private void fillBoardWithShips() {
@@ -20,10 +21,24 @@ public class Player {
     }
 
     private void placeShip(String name, int size) {
-        System.out.println("Enter the coordinates of the " + name + " (" + size + " cells):");
+        System.out.println("Enter the coordinates of the " + name + " (" + size + " cells):\n");
         Ship ship = new Ship(name, size);
         ship.collectCoordinates(playingBoard);
         ship.placeOnBoard(playingBoard);
         playingBoard.addToShipList(ship);
+        playingBoard.printFullBoard();
+    }
+
+    private void startGame() {
+        playingBoard.printFogOfWarBoard();
+        startShooting();
+    }
+
+    private void startShooting() {
+        System.out.println("Take a shot!\n");
+        boolean gameRunning = true;
+        while (gameRunning) {
+            gameRunning = playingBoard.shoot(System.in);
+        }
     }
 }
